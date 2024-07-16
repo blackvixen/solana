@@ -12,9 +12,9 @@ export const getProvider = () => {
         }
     }
 
-    // if (typeof window !== 'undefined') {
-    //     window.open('https://phantom.app/', '_blank');
-    // }
+    if (typeof window !== 'undefined') {
+        window.open('https://phantom.app/', '_blank');
+    }
 
     return null;
 };
