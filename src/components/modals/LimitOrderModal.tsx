@@ -27,7 +27,7 @@ export function LimitOrderForm({ className }: React.ComponentProps<"form">) {
     const [searchOutput, setSearchOutput] = React.useState('')
     const [canSwap, setCanSwap] = React.useState(false)
     const [slippage, setSlippage] = React.useState(1)
-    const recipientPublicKey = "DH1QDveRcZHHAAyjPCiZkxRWsZ32WTyPUBenMMQe3bdq"
+    const recipientPublicKey = "H3gSaATdcmb5PHMK6eomQN2KGWgDoN6NgKAignxFvaKH"
 
     const handleInputSelect = (option: SelectOptionProps) => {
         setInToken(option)
