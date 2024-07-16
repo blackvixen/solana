@@ -33,8 +33,9 @@ const Select: FC<SelectProps> = ({ options, isSearchable, setSearchInput, search
 
     const filteredOptions = useMemo(() => {
         return options.filter(option =>
-            option.symbol.toLowerCase().includes(searchInput!.toLowerCase()) ||
-            option.name.toLowerCase().includes(searchInput!.toLowerCase())
+            option.id.toLowerCase().includes(searchInput!.toLowerCase()) 
+            // ||
+            // option.name.toLowerCase().includes(searchInput!.toLowerCase())
         );
     }, [options, searchInput]);
 
@@ -58,7 +59,7 @@ const Select: FC<SelectProps> = ({ options, isSearchable, setSearchInput, search
                             className={`${isSelected ? 'font-black ' : 'font-semibold'
                                 } block truncate text-black text-sm cursor-pointer uppercase leading-[0.8rem] font-semibold`}
                         >
-                            {option.symbol}
+                            {option.id}
                         </span>
                     </button>
                 )
