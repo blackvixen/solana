@@ -1,23 +1,45 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import { useProviderStore } from '@/hooks/general'
 import React from 'react'
 import { motion } from "framer-motion"
-import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
 import { GiReceiveMoney } from "react-icons/gi";
-import { SiStorybook } from "react-icons/si";
-import { TbPackages } from "react-icons/tb";
-import { BsNintendoSwitch } from "react-icons/bs";
+import { IoMdSwap } from "react-icons/io";
 import { useOnClickOutside } from 'usehooks-ts'
 import { IoWallet } from "react-icons/io5";
-import { getProvider } from '@/utils/walletProvider';
+import { formatPublicKey, getProvider } from '@/utils/walletProvider';
 import { toast } from "sonner"
+import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer"
+import { LimitOrderForm } from '@/components/modals/LimitOrderModal'
+import { SwapForm } from '@/components/modals/SwapModal'
 
 
 export default function Bottom() {
   const { publicKey, privateKey, setPrivateKey, setPublicKey, setProvider, provider, mobileMenuOpen, setMobileMenuOpen } = useProviderStore()
   const ref = React.useRef(null);
+  const [openLimitOrder, setOpenLimitOrder] = React.useState(false)
+  const [openSwap, setOpenSwap] = React.useState(false)
+
+
+  const toggleSwap = () => {
+    setOpenSwap(!openSwap);
+  }
+
+  const toggleLimitOrder = () => {
+    setOpenLimitOrder(!openLimitOrder);
+  }
 
   const handleClickOutside = () => {
     if (mobileMenuOpen) {
@@ -69,7 +91,7 @@ export default function Bottom() {
     if (!provider) {
       connectWallet();
     }
-  }, [provider])
+  }, [])
 
   return (
     <motion.section
@@ -79,31 +101,62 @@ export default function Bottom() {
       transition={{ duration: 0.3 }} // Set transition duration to 300ms
       className={`z-50 w-screen fixed bottom-0 left-0 right-0 lg:hidden p-3.5`}>
       <div className="flex items-center justify-between p-2.5 rounded-lg bg-lightSecondary dark:bg-darkSecondary text-lightTextGray dark:text-darkTextGray shadow">
-        <Link className="hover:bg-dark hover:text-light p-2 rounded-lg dark:hover:bg-light dark:hover:text-dark focus:bg-dark focus:text-light dark:focus:bg-light dark:focus:text-dark flex min-w-[55px] h-[55px] flex-col items-center" href="#Story">
-          <SiStorybook className="w-6 h-6" />
-          <span className="text-[10px]">About</span>
-        </Link>
+        <Drawer open={openSwap} onOpenChange={setOpenSwap}>
+          <DrawerTrigger className="lg:hidden" asChild>
+            <Button className="hover:bg-dark hover:text-light p-2 rounded-lg dark:hover:bg-light dark:hover:text-dark focus:bg-dark focus:text-light dark:focus:bg-light dark:focus:text-dark flex min-w-[55px] h-[55px] flex-col items-center" variant={null}>
+              <IoMdSwap className="w-6 h-6" />
+              <span className="text-[10px]">Swap</span>
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent className="lg:hidden">
+            <DrawerHeader className="text-left">
+              <DrawerTitle>Swap Tokens</DrawerTitle>
+              <DrawerDescription>
+                Make changes to your profile here. Click save when you're done.
+              </DrawerDescription>
+            </DrawerHeader>
+            <SwapForm className='px-4' />
+            <DrawerFooter className="pt-2">
+              <DrawerClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
         <Separator className="h-8 hidden lg:flex bg-lightTextGray dark:bg-darkTextGray" orientation='vertical' />
-        <Link className="hover:bg-dark hover:text-light p-2 rounded-lg dark:hover:bg-light dark:hover:text-dark focus:bg-dark focus:text-light dark:focus:bg-light dark:focus:text-dark flex min-w-[55px] h-[55px] flex-col items-center" href="#Features">
-          <TbPackages className="w-6 h-6" />
-          <span className="text-[10px]">Features</span>
-        </Link>
+        <button type="button" onClick={connectWallet} className="hover:bg-dark hover:text-light p-2 rounded-lg dark:hover:bg-light dark:hover:text-dark focus:bg-dark focus:text-light dark:focus:bg-light dark:focus:text-dark flex min-w-[55px] h-[55px] flex-col items-center">
+          <IoWallet className="w-6 h-6" />
+          <span className="text-[10px] text-nowrap">
+            {
+              !publicKey ?
+                "Connect Wallet" :
+                formatPublicKey(publicKey)
+            }
+          </span>
+        </button>
         <Separator className="h-8 hidden lg:flex bg-lightTextGray dark:bg-darkTextGray" orientation='vertical' />
-        <Link className="hover:bg-dark hover:text-light p-2 rounded-lg dark:hover:bg-light dark:hover:text-dark focus:bg-dark focus:text-light dark:focus:bg-light dark:focus:text-dark flex min-w-[55px] h-[55px] flex-col items-center" href="#Presale">
-          <GiReceiveMoney className="w-6 h-6" />
-          <span className="text-[10px]">Snipe</span>
-        </Link>
-        <Separator className="h-8 hidden lg:flex bg-lightTextGray dark:bg-darkTextGray" orientation='vertical' />
-        <Link className="hover:bg-dark hover:text-light p-2 rounded-lg dark:hover:bg-light dark:hover:text-dark focus:bg-dark focus:text-light dark:focus:bg-light dark:focus:text-dark flex min-w-[55px] h-[55px] flex-col items-center" href="#Utility">
-          <BsNintendoSwitch className="w-6 h-6" />
-          <span className="text-[10px]">Copy Trade</span>
-        </Link>
-        {
-          !publicKey && <button type="button" onClick={connectWallet} className="hover:bg-dark hover:text-light p-2 rounded-lg dark:hover:bg-light dark:hover:text-dark focus:bg-dark focus:text-light dark:focus:bg-light dark:focus:text-dark flex min-w-[55px] h-[55px] flex-col items-center">
-            <IoWallet className="w-6 h-6" />
-            <span className="text-[10px] text-nowrap">Connect</span>
-          </button>
-        }
+        <Drawer open={openLimitOrder} onOpenChange={setOpenLimitOrder}>
+          <DrawerTrigger className="lg:hidden" asChild>
+            <Button className="hover:bg-dark hover:text-light p-2 rounded-lg dark:hover:bg-light dark:hover:text-dark focus:bg-dark focus:text-light dark:focus:bg-light dark:focus:text-dark flex min-w-[55px] h-[55px] flex-col items-center" variant={null}>
+              <GiReceiveMoney className="w-6 h-6" />
+              <span className="text-[10px]">Limit Order</span>
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent className="lg:hidden">
+            <DrawerHeader className="text-left">
+              <DrawerTitle>Limit Order</DrawerTitle>
+              <DrawerDescription>
+                Make changes to your profile here. Click save when you're done.
+              </DrawerDescription>
+            </DrawerHeader>
+            <LimitOrderForm className='px-4' />
+            <DrawerFooter className="pt-2">
+              <DrawerClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
       </div>
     </motion.section>
   )

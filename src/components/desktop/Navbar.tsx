@@ -13,7 +13,7 @@ import { useProviderStore } from '@/hooks/general';
 
 export default function Navbar() {
     const { publicKey, privateKey, setPrivateKey, setPublicKey, setProvider, provider, mobileMenuOpen, setMobileMenuOpen } = useProviderStore()
-
+    
 
 
     const toggleOpen = () => {
@@ -23,6 +23,8 @@ export default function Navbar() {
             setMobileMenuOpen(true)
         }
     }
+
+    
 
     const connectWallet = async () => {
         if (provider && provider.isConnected) {
@@ -64,7 +66,7 @@ export default function Navbar() {
         if (!provider) {
             connectWallet();
         }
-    }, [])
+    }, [provider])
 
     const disconnect = async () => {
         setPublicKey(null);
