@@ -79,7 +79,7 @@ export default function Bottom() {
     } else {
       setProvider(phantomProvider)
       try {
-        const resp = await phantomProvider.connect({ onlyIfTrusted: true });
+        const resp = await phantomProvider.connect();
         setPublicKey(resp.publicKey.toString());
       } catch (error: any) {
         toast.error("Error connecting to Phantom Wallet:", { description: error.message.toString() });
