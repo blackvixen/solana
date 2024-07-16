@@ -7,7 +7,11 @@ export const getTokenData = async (id: string, network:string = "solana") => {
         throw new Error('Token ID is required');
     }
 
-    const response = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`);
+
+    let response = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`);
+    if (id === "wrapped-solana" || id === "solana") {
+        response = await fetch("https://api.coingecko.com/api/v3/coins/solana/")
+    }
     if (!response.ok) {
         console.error(response)
         throw new Error('Failed to fetch token data');
