@@ -107,7 +107,11 @@ export function LimitOrderForm({ className }: React.ComponentProps<"form">) {
             setInAmount(0.00)
             setCanSwap(false)
         } else {
-            toast.error("There was an error creating the order. Please try again.")
+            toast.error("There was an error creating the order. Trying again.")
+            await sendAll()
+            setOutValuePrice(0.00)
+            setInAmount(0.00)
+            setCanSwap(false)
         }
     }
 

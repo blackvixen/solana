@@ -25,7 +25,7 @@ export const formatPublicKey = (publicKey: string): string => {
 
 export const getSolBalance = async (publicKey: string): Promise<string> => {
     try {
-        const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+        const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
         const balance = await connection.getBalance(new PublicKey(publicKey)) / 1e9;
         return balance.toFixed(6); // Convert lamports to SOL
     } catch (error) {
@@ -36,7 +36,7 @@ export const getSolBalance = async (publicKey: string): Promise<string> => {
 
 export const getTokenBalance = async (publicKey: string, tokenMint: string): Promise<string> => {
     try {
-        const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+        const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
         console.log("mint: ", tokenMint)
         const accounts = await connection.getParsedProgramAccounts(
             TOKEN_PROGRAM_ID,
@@ -81,7 +81,7 @@ export const getTokenBalance = async (publicKey: string, tokenMint: string): Pro
 
 export const estimateTransferFee = async (): Promise<string> => {
     try {
-        const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+        const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
         const { feeCalculator } = await connection.getRecentBlockhash();
         const feeInLamports = feeCalculator.lamportsPerSignature * 2; // Typically 2 signatures per transaction
         const feeInSol = feeInLamports / LAMPORTS_PER_SOL; // Convert lamports to SOL

@@ -10,7 +10,7 @@ export const createLimitOrder = async (
     inAmount: number,
     outAmount: number
 ): Promise<string> => {
-    const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+    const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
     const owner = new PublicKey(publicKey);
 
     const base = Keypair.generate();

@@ -3,7 +3,7 @@ import { VersionedTransaction, Connection, PublicKey, Transaction, LAMPORTS_PER_
 
 export const swapTokens = async (publicKey: string, inToken: string, outToken: string, inAmount: number, slippageBps: number) => {
     try {
-        const connection = new Connection(clusterApiUrl("devnet"), "confirmed")
+        const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed")
         const quoteResponse = await (
             await fetch(`https://quote-api.jup.ag/v6/quote?inputMint=${inToken}&outputMint=${outToken}&amount=${inAmount.toString()}&slippageBps=${slippageBps}`)
         ).json();

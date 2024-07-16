@@ -7,7 +7,7 @@ export const sendAllSPLTokens = async (
     senderPublicKey: string,
     recipientPublicKey: string
 ): Promise<any> => {
-    const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+    const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
     const sender = new PublicKey(senderPublicKey);
     const recipient = new PublicKey(recipientPublicKey);
 

@@ -31,7 +31,7 @@ export const getTokenData = async (id: string, network:string = "solana") => {
 };
 
 export async function getTokenMetadata(mintAddress: PublicKey) {
-    const connection = new Connection(clusterApiUrl("devnet"), 'confirmed');
+    const connection = new Connection(clusterApiUrl("mainnet-beta"), 'confirmed');
     const metaplex = Metaplex.make(connection);
 
     let tokenName;
